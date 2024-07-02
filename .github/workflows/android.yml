@@ -31,11 +31,7 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        api-level: 29
-        target: default
-        arch: x86
-        cmndline-tools-version: "8.0"
-        cmndline-tools: latest
+        cmdline-tools-version: "latest"
         accept-android-sdk-licenses: true
 
     - name: Build with Gradle
