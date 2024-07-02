@@ -219,7 +219,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
             status("connecting...");
             connected = Connected.Pending;
-            SerialSocket socket = new SerialSocket(getActivity().getApplicationContext(), device, serviceUUID, readUUID, writeUUID); // Chỉnh sửa dòng này
+            SerialSocket socket = new SerialSocket(getActivity().getApplicationContext(), device, serviceUUID, readUUID, writeUUID);
             service.connect(socket);
         } catch (Exception e) {
             onSerialConnectError(e);
