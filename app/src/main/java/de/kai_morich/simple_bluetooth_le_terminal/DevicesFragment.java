@@ -32,10 +32,8 @@ import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
-/**
- * show list of BLE devices
- */
 public class DevicesFragment extends ListFragment {
 
     private enum ScanState { NONE, LE_SCAN, DISCOVERY, DISCOVERY_FINISHED }
@@ -53,6 +51,11 @@ public class DevicesFragment extends ListFragment {
     private ArrayAdapter<BluetoothUtil.Device> listAdapter;
     ActivityResultLauncher<String[]> requestBluetoothPermissionLauncherForStartScan;
     ActivityResultLauncher<String> requestLocationPermissionLauncherForStartScan;
+
+    // Các biến để lưu trữ UUID
+    private UUID serviceUUID;
+    private UUID readUUID;
+    private UUID writeUUID;
 
     public DevicesFragment() {
         leScanCallback = (device, rssi, scanRecord) -> {
@@ -290,8 +293,19 @@ public class DevicesFragment extends ListFragment {
         BluetoothUtil.Device device = listItems.get(position-1);
         Bundle args = new Bundle();
         args.putString("device", device.getDevice().getAddress());
+        // Truyền các UUID vào Fragment Terminal
+        args.putString("serviceUUID", serviceUUID.toString());
+        args.putString("readUUID", readUUID.toString());
+        args.putString("writeUUID", writeUUID.toString());
         Fragment fragment = new TerminalFragment();
         fragment.setArguments(args);
         getFragmentManager().beginTransaction().replace(R.id.fragment, fragment, "terminal").addToBackStack(null).commit();
+    }
+
+    // Thêm phương thức cập nhật UUIDs
+    public void updateUUIDs(UUID serviceUUID, UUID readUUID, UUID writeUUID) {
+        this.serviceUUID = serviceUUID;
+        this.readUUID = readUUID;
+        this.writeUUID = writeUUID;
     }
 }
