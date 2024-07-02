@@ -23,6 +23,46 @@
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Các trường nhập UUID -->
+        <EditText
+            android:id="@+id/editTextServiceUUID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Service UUID"
+            android:layout_margin="16dp"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextReadUUID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Read Characteristic UUID"
+            android:layout_margin="16dp"
+            android:inputType="text"
+            android:layout_below="@id/editTextServiceUUID"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editTextWriteUUID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write Characteristic UUID"
+            android:layout_margin="16dp"
+            android:inputType="text"
+            android:layout_below="@id/editTextReadUUID"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect"
+            android:layout_below="@id/editTextWriteUUID"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
