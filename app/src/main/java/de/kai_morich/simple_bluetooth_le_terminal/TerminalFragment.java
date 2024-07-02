@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +35,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class TerminalFragment extends Fragment implements ServiceConnection, SerialListener {
 
@@ -50,6 +54,11 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     private boolean pendingNewline = false;
     private String newline = TextUtil.newline_crlf;
 
+    // Thêm các biến UUID
+    private UUID serviceUUID;
+    private UUID readUUID;
+    private UUID writeUUID;
+
     /*
      * Lifecycle
      */
@@ -59,6 +68,10 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         setHasOptionsMenu(true);
         setRetainInstance(true);
         deviceAddress = getArguments().getString("device");
+        // Nhận UUID từ arguments
+        serviceUUID = UUID.fromString(getArguments().getString("serviceUUID"));
+        readUUID = UUID.fromString(getArguments().getString("readUUID"));
+        writeUUID = UUID.fromString(getArguments().getString("writeUUID"));
     }
 
     @Override
@@ -206,7 +219,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
             status("connecting...");
             connected = Connected.Pending;
-            SerialSocket socket = new SerialSocket(getActivity().getApplicationContext(), device);
+            SerialSocket socket = new SerialSocket(getActivity().getApplicationContext(), device, serviceUUID, readUUID, writeUUID); // Chỉnh sửa dòng này
             service.connect(socket);
         } catch (Exception e) {
             onSerialConnectError(e);
